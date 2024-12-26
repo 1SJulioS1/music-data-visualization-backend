@@ -1,5 +1,5 @@
-const fetch = require("node-fetch");
-const { youtubeApiKey } = require("../config");
+import fetch from "node-fetch";
+import { youtubeApiKey } from "../config";
 
 /**
  * Llama a la YouTube Data API para obtener los videos más populares en una región
@@ -11,6 +11,7 @@ async function getMostPopularVideos(regionCode) {
   // Ejemplo de endpoint:
   // GET https://www.googleapis.com/youtube/v3/videos
   //   ?chart=mostPopular
+
   //   &regionCode=US
   //   &maxResults=10
   //   &part=snippet,statistics
@@ -26,10 +27,12 @@ async function getMostPopularVideos(regionCode) {
 
   const response = await fetch(url.toString());
   if (!response.ok) {
-    throw new Error(`YouTube API error: ${response.status} ${response.statusText}`);
+    throw new Error(
+      `YouTube API error: ${response.status} ${response.statusText}`
+    );
   }
 
   return response.json();
 }
 
-module.exports = { getMostPopularVideos };
+export default { getMostPopularVideos };

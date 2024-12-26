@@ -1,4 +1,4 @@
-const { getMostPopularVideos } = require("../utils/fetchYoutubeAPI");
+const { getMostPopularVideos } = require("../utils/fetchYoutubeAPI").default;
 
 /**
  * Controlador que obtiene videos más populares en una región
@@ -16,5 +16,5 @@ async function getPopularByRegion(req, res, next) {
 }
 
 module.exports = {
-  getPopularByRegion
+  getPopularByRegion,
 };
