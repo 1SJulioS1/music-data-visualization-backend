@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-import { youtubeApiKey } from "../config";
+import { youtubeApiKey } from "../config/index.js";
 
 /**
  * Llama a la YouTube Data API para obtener los videos más populares en una región
@@ -7,7 +7,7 @@ import { youtubeApiKey } from "../config";
  * @param {string} regionCode - Código de país (ej. "US", "MX", "ES").
  * @returns {Promise<Object>} - JSON con la información de los videos (snippet, statistics).
  */
-async function getMostPopularVideos(regionCode) {
+export default async function getMostPopularVideos(regionCode) {
   // Ejemplo de endpoint:
   // GET https://www.googleapis.com/youtube/v3/videos
   //   ?chart=mostPopular
@@ -34,5 +34,3 @@ async function getMostPopularVideos(regionCode) {
 
   return response.json();
 }
-
-export default { getMostPopularVideos };

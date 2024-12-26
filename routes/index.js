@@ -1,9 +1,8 @@
-const { Router } = require("express");
-const youtubeRoutes = require("./youtube.routes");
+import { Router } from "express";
+import youtubeRoutes from "./youtube.routes.js";
 
 const router = Router();
 
-// Montamos /youtube
 router.use("/youtube", youtubeRoutes);
 
-module.exports = router;
+export default router;

@@ -1,9 +1,9 @@
-const { Router } = require("express");
-const { getPopularByRegion } = require("../controllers/youtube.controller");
+import { Router } from "express";
+import { getPopularByRegion } from "../controllers/youtube.controller.js";
 
 const router = Router();
 
-// GET /api/youtube/popular/:regionCode
+// Define el endpoint
 router.get("/popular/:regionCode", getPopularByRegion);
 
-module.exports = router;
+export default router;

@@ -2,18 +2,16 @@
  * Ejemplo de logger con Winston (opcional).
  * Si deseas usarlo, instala: npm install winston
  */
-const { createLogger, format, transports } = require("winston");
+import { createLogger, format, transports } from "winston";
 
 const logger = createLogger({
   level: "info",
-  format: format.combine(
-    format.timestamp(),
-    format.json()
-  ),
+  format: format.combine(format.timestamp(), format.json()),
   transports: [
-    new transports.Console()
-    // Puedes agregar un archivo o base de datos, p.e.: new transports.File({ filename: "logs/app.log" })
-  ]
+    new transports.Console(),
+    new transports.File({ filename: "logs/error.log", level: "error" }),
+    new transports.File({ filename: "logs/combined.log" }),
+  ],
 });
 
-module.exports = logger;
+export default logger;

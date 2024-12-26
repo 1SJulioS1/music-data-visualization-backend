@@ -1,9 +1,9 @@
-const express = require("express");
-const cors = require("cors");
-const morgan = require("morgan");
-const { port } = require("./config");
-const routes = require("./routes");
-const { errorHandler } = require("./middleware/errorHandler");
+import express from "express";
+import cors from "cors";
+import morgan from "morgan";
+import { port } from "./config/index.js";
+import routes from "./routes/index.js";
+import { errorHandler } from "./middleware/errorHandler.js";
 
 const app = express();
 

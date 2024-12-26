@@ -1,6 +1,5 @@
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 
-module.exports = {
-  port: process.env.PORT || 3000,
-  youtubeApiKey: process.env.YOUTUBE_API_KEY
-};
+export const port = process.env.PORT || 3000;
+export const youtubeApiKey = process.env.YOUTUBE_API_KEY;

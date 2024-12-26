@@ -1,10 +1,10 @@
-const { getMostPopularVideos } = require("../utils/fetchYoutubeAPI").default;
+import getMostPopularVideos from "../utils/fetchYoutubeAPI.js";
 
 /**
  * Controlador que obtiene videos más populares en una región
  * @route GET /api/youtube/popular/:regionCode
  */
-async function getPopularByRegion(req, res, next) {
+export async function getPopularByRegion(req, res, next) {
   try {
     const { regionCode } = req.params;
     const result = await getMostPopularVideos(regionCode);
@@ -14,7 +14,3 @@ async function getPopularByRegion(req, res, next) {
     next(error);
   }
 }
-
-module.exports = {
-  getPopularByRegion,
-};
