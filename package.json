@@ -1,0 +1,20 @@
+{
+  "name": "express-backend-youtube",
+  "version": "1.0.0",
+  "description": "Backend modular con Express, orientado a la YouTube Data API para videos más populares por región",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "TuNombre",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "node-fetch": "^3.3.1"
+  }
+}
