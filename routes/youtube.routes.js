@@ -7,7 +7,7 @@ import {
 const router = Router();
 
 // Define el endpoint
-router.get("/popular/:regionCode", getPopularByRegion);
 router.get("/popular/channel/:channelId", getChannelById);
+router.get("/popular/videos/:regionCode", getPopularByRegion);
 
 export default router;
