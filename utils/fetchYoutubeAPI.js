@@ -7,7 +7,7 @@ import { youtubeApiKey } from "../config/index.js";
  * @param {string} regionCode - Código de país (ej. "US", "MX", "ES").
  * @returns {Promise<Object>} - JSON con la información de los videos (snippet, statistics).
  */
-export default async function getMostPopularVideos(regionCode) {
+export async function getMostPopularVideos(regionCode) {
   // Ejemplo de endpoint:
   // GET https://www.googleapis.com/youtube/v3/videos
   //   ?chart=mostPopular
@@ -34,4 +34,25 @@ export default async function getMostPopularVideos(regionCode) {
   }
 
   return response.json();
+}
+export async function getChannelDetail(channelId) {
+  console.log("No entra");
+  const baseUrl = "https://www.googleapis.com/youtube/v3/channels";
+  const url = new URL(baseUrl);
+  url.searchParams.set("part", "snippet,statistics,contentDetails");
+  url.searchParams.set("id", channelId);
+  url.searchParams.set("key", youtubeApiKey);
+
+  try {
+    const response = await fetch(url.toString());
+    if (!response.ok) {
+      throw new Error(
+        `YouTube API error: ${response.status} ${response.statusText}`
+      );
+    }
+    return response.json();
+  } catch (error) {
+    console.error("Error fetching channel details:", error);
+    throw new Error("Failed to fetch channel details");
+  }
 }
