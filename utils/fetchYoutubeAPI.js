@@ -27,6 +27,7 @@ export async function getMostPopularVideos(regionCode) {
 
   const response = await fetch(url.toString());
   if (!response.ok) {
+    console.log(response);
     throw new Error(
       `YouTube API error: ${response.status} ${response.statusText}`
     );
