@@ -1,6 +1,5 @@
 import { Router } from "express";
 
-import { getPopularByRegion } from "../controllers/youtube.controller.js";
 import { getFlagByRegion } from "../controllers/flagController.js";
 import {
   getPopularByRegion,
