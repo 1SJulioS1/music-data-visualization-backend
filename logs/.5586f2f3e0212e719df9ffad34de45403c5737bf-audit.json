@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 1
+    },
+    "auditLog": "C:\\Users\\jjssi\\OneDrive\\Desktop\\Music\\backend\\logs\\.5586f2f3e0212e719df9ffad34de45403c5737bf-audit.json",
+    "files": [
+        {
+            "date": 1736550870933,
+            "name": "C:\\Users\\jjssi\\OneDrive\\Desktop\\Music\\backend\\logs\\application-2025-01-10.log",
+            "hash": "dc1f9a237d037b1e6342337323df77151cc36d32ac43284a7ee7183b76800996"
+        }
+    ],
+    "hashType": "sha256"
+}

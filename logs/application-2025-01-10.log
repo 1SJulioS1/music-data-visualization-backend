@@ -1,0 +1,1 @@
+2025-01-10 17:24:58 [INFO]: ::ffff:127.0.0.1 - - [10/Jan/2025:23:24:58 +0000] "GET /api/spotify/popular/GL HTTP/1.1" 200 56298 "-" "PostmanRuntime/7.43.0"

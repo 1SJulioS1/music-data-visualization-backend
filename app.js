@@ -4,12 +4,12 @@ import morgan from "morgan";
 import { port } from "./config/index.js";
 import routes from "./routes/index.js";
 import { errorHandler } from "./middleware/errorHandler.js";
-
+import { requestLogger } from "./middleware/morganWinstonHandler.js";
 const app = express();
 
 // Middlewares globales
 app.use(cors());
-app.use(morgan("dev"));
+app.use(requestLogger); // Registrar todas las solicitudes HTTP
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
