@@ -8,6 +8,8 @@ import { chromium } from "playwright";
 import { ensureAccessToken } from "../services/spotifyTokenManager.js";
 import axios from "axios";
 import { countryPlaylist } from "../data/top50SpotifyPlaylist.js";
+import { filterData } from "./filterSpotifyData.js";
+
 export async function getWebToken() {
   const url = "https://open.spotify.com/playlist/37i9dQZEVXbNG2KDcFcKOF";
 
@@ -65,19 +67,8 @@ export async function getPlaylistData(country, accessToken) {
         );
       }
       console.log("removing excess data");
-      data.tracks.items.forEach((item) => {
-        if (item.track && item.track.available_markets) {
-          delete item.track.available_markets;
-        }
-        if (
-          item.track &&
-          item.track.album &&
-          item.track.album.available_markets
-        ) {
-          delete item.track.album.available_markets;
-        }
-      });
-      return data;
+
+      return filterData(data);
     } catch (error) {
       console.error(
         `Error fetching playlist data for ${country}: ${error.message}`
