@@ -7,7 +7,7 @@ import {
 import { chromium } from "playwright";
 import { ensureAccessToken } from "../services/spotifyTokenManager.js";
 import axios from "axios";
-
+import { countryPlaylist } from "../data/top50SpotifyPlaylist.js";
 export async function getWebToken() {
   const url = "https://open.spotify.com/playlist/37i9dQZEVXbNG2KDcFcKOF";
 
@@ -48,8 +48,8 @@ export async function getWebToken() {
  * @returns {Promise<Object>} - The JSON response from the Spotify API containing playlist data, including tracks.
  * @throws {Error} - If the API request fails after 5 retries.
  */
-export async function getPlaylistData(playlistId, country, accessToken) {
-  const url = `https://api.spotify.com/v1/playlists/${playlistId}`;
+export async function getPlaylistData(country, accessToken) {
+  const url = `https://api.spotify.com/v1/playlists/${countryPlaylist[country]}`;
   const headers = { Authorization: `Bearer ${accessToken}` };
   const maxRetries = 5;
   let retries = 0;
