@@ -64,7 +64,19 @@ export async function getPlaylistData(playlistId, country, accessToken) {
           'Invalid response structure: missing "tracks" or "items".'
         );
       }
-
+      console.log("removing excess data");
+      data.tracks.items.forEach((item) => {
+        if (item.track && item.track.available_markets) {
+          delete item.track.available_markets;
+        }
+        if (
+          item.track &&
+          item.track.album &&
+          item.track.album.available_markets
+        ) {
+          delete item.track.album.available_markets;
+        }
+      });
       return data;
     } catch (error) {
       console.error(
