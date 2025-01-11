@@ -45,14 +45,12 @@ export async function getChannelDetail(channelId) {
   try {
     const response = await fetch(url.toString());
     if (!response.ok) {
-      throw new Error(
+      logger.error(
         `YouTube API error: ${response.status} ${response.statusText}`
       );
     }
     return response.json();
   } catch (error) {
     logger.error(`Error fetching channel details: ${error}`);
-
-    throw new Error("Failed to fetch channel details");
   }
 }

@@ -28,9 +28,7 @@ async function fetchPlaylistData(country, accessToken) {
     const data = response.data;
 
     if (!data.tracks || !data.tracks.items) {
-      throw new Error(
-        'Invalid response structure: missing "tracks" or "items".'
-      );
+      logger.error('Invalid response structure: missing "tracks" or "items".');
     }
     return data;
   });
