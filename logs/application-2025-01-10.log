@@ -1,1 +1,3 @@
 2025-01-10 17:24:58 [INFO]: ::ffff:127.0.0.1 - - [10/Jan/2025:23:24:58 +0000] "GET /api/spotify/popular/GL HTTP/1.1" 200 56298 "-" "PostmanRuntime/7.43.0"
+2025-01-10 20:12:53 [INFO]: Playlist data fetched successfully for GL
+2025-01-10 20:12:53 [INFO]: ::ffff:127.0.0.1 - - [11/Jan/2025:02:12:53 +0000] "GET /api/spotify/popular/GL HTTP/1.1" 200 56322 "-" "PostmanRuntime/7.43.0"

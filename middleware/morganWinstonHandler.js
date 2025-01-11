@@ -1,9 +1,8 @@
 import morgan from "morgan";
-import { logger } from "../config/winstonConfig.js"; // Tu configuración de Winston
+import { logger } from "../config/winstonConfig.js";
 
-// Configuración de Morgan con Winston
 const stream = {
-  write: (message) => logger.info(message.trim()), // Registrar cada solicitud
+  write: (message) => logger.info(message.trim()),
 };
 
 export const requestLogger = morgan("combined", { stream });

@@ -3,6 +3,8 @@ import axios from "axios";
 import { countryPlaylist } from "../data/top50SpotifyPlaylist.js";
 import { filterData } from "./filterSpotifyData.js";
 import { withRetries } from "./retries.js";
+import { handleHttpResponse } from "../utils/handleHttpResponse.js";
+import { logger } from "../config/winstonConfig.js";
 
 export async function getWebToken() {
   const url = "https://open.spotify.com/playlist/37i9dQZEVXbNG2KDcFcKOF";
@@ -24,17 +26,22 @@ async function fetchPlaylistData(country, accessToken) {
   const headers = { Authorization: `Bearer ${accessToken}` };
 
   return await withRetries(async () => {
-    const response = await axios.get(url, { headers });
-    const data = response.data;
-
-    if (!data.tracks || !data.tracks.items) {
-      logger.error('Invalid response structure: missing "tracks" or "items".');
+    try {
+      const response = await axios.get(url, { headers });
+      const data = handleHttpResponse(response);
+      logger.info(`Playlist data fetched successfully for ${country}`);
+      return data;
+    } catch (error) {
+      logger.error(
+        `Error fetching playlist data for ${country}: ${error.message}`
+      );
+      throw error;
     }
-    return data;
   });
 }
 
 export async function getPlaylistData(country, accessToken) {
   const data = await fetchPlaylistData(country, accessToken);
+  // Filtra los datos según la lógica definida en filterSpotifyData.js
   return filterData(data);
 }

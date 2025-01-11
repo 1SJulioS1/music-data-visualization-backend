@@ -1,11 +1,11 @@
 import { logger } from "../config/winstonConfig.js";
 export function errorHandler(err, req, res, next) {
-  logger.error("Error capturado", {
+  logger.error("Error ", {
     message: err.message,
     stack: err.stack,
     status: err.status || 500,
-    route: req.originalUrl, // Ruta donde ocurrió el error
-    method: req.method, // Método HTTP de la solicitud
+    route: req.originalUrl,
+    method: req.method,
   });
 
   const status = err.status || 500;
