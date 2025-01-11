@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 import { youtubeApiKey } from "../config/index.js";
-
+import { logger } from "../config/winstonConfig.js";
 /**
  * Llama a la YouTube Data API para obtener los videos más populares en una región
  * utilizando chart=mostPopular.
@@ -27,16 +27,15 @@ export async function getMostPopularVideos(regionCode) {
 
   const response = await fetch(url.toString());
   if (!response.ok) {
-    console.log(response);
-    throw new Error(
-      `YouTube API error: ${response.status} ${response.statusText}`
+    logger.info(response);
+    logger.error(
+      `Error fetching playlist data for ${country}: ${error.message}`
     );
   }
 
   return response.json();
 }
 export async function getChannelDetail(channelId) {
-  console.log("No entra");
   const baseUrl = "https://www.googleapis.com/youtube/v3/channels";
   const url = new URL(baseUrl);
   url.searchParams.set("part", "snippet,statistics,contentDetails");
@@ -52,7 +51,8 @@ export async function getChannelDetail(channelId) {
     }
     return response.json();
   } catch (error) {
-    console.error("Error fetching channel details:", error);
+    logger.error(`Error fetching channel details: ${error}`);
+
     throw new Error("Failed to fetch channel details");
   }
 }

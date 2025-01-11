@@ -10,7 +10,6 @@ import {
 export async function getPopularByRegion(req, res, next) {
   try {
     const { regionCode } = req.params;
-    console.log(regionCode);
     const result = await getMostPopularVideos(regionCode);
     // result contendrá items con snippet, statistics, etc.
     res.json(result);
@@ -25,11 +24,9 @@ export async function getPopularByRegion(req, res, next) {
 export async function getChannelById(req, res, next) {
   try {
     const { channelId } = req.params;
-    console.log("Entra");
     const result = await getChannelDetail(channelId);
     res.json(result);
   } catch (error) {
-    console.log("No entra");
     next(error);
   }
 }
