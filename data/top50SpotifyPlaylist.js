@@ -9,7 +9,7 @@ export const countryPlaylist = {
   BR: "37i9dQZEVXbMXbN3EUUhlg",
   BG: "37i9dQZEVXbNfM2w2mq1B8",
   CA: "37i9dQZEVXbKj23U1GF4IR",
-  CH: "3qwyQJzNAt4BDfnijpKkbi",
+  CN: "3qwyQJzNAt4BDfnijpKkbi",
   CL: "37i9dQZEVXbL0GavIqMTeb",
   CO: "37i9dQZEVXbOa2lmxNORXQ",
   CR: "37i9dQZEVXbMZAjGMynsQX",
