@@ -1,4 +1,3 @@
-import { chromium } from "playwright";
 import axios from "axios";
 import { countryPlaylist } from "../data/top50SpotifyPlaylist.js";
 import { filterData } from "./filterSpotifyData.js";
@@ -6,18 +5,24 @@ import { withRetries } from "./retries.js";
 import { handleHttpResponse } from "../utils/handleHttpResponse.js";
 import { logger } from "../config/winstonConfig.js";
 
+/**
+ * Fetch the Spotify web token by scraping the playlist page HTML.
+ * This does not require Chromium or any other headless browser.
+ */
 export async function getWebToken() {
   const url = "https://open.spotify.com/playlist/37i9dQZEVXbNG2KDcFcKOF";
-  const browser = await chromium.launch({ headless: true });
-  const page = await browser.newPage();
-  const requestPromise = page.waitForRequest((request) =>
-    request.url().includes("pathfinder/v1/query")
-  );
-  await page.goto(url);
-  const request = await requestPromise;
-  const authHeader = request.headers()["authorization"];
-  const token = authHeader.replace("Bearer", "").trim();
-  await browser.close();
+  const response = await axios.get(url);
+  const html = response.data;
+
+  // Attempt to find the token in a string like: "accessToken":"<TOKEN>"
+  const tokenMatch = html.match(/"accessToken":"(.*?)"/);
+
+  if (!tokenMatch) {
+    throw new Error("Could not find access token in Spotify page HTML.");
+  }
+
+  // tokenMatch[1] should contain the actual token
+  const token = tokenMatch[1];
   return token;
 }
 
@@ -42,6 +47,6 @@ async function fetchPlaylistData(country, accessToken) {
 
 export async function getPlaylistData(country, accessToken) {
   const data = await fetchPlaylistData(country, accessToken);
-  // Filtra los datos según la lógica definida en filterSpotifyData.js
+  // Filter the data according to your custom logic in filterSpotifyData.js
   return filterData(data);
 }
