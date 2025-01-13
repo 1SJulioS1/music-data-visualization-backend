@@ -15,8 +15,9 @@ export async function getPlaylist(req, res, next) {
 
     const accessToken = await getWebToken();
     const result = await getPlaylistData(country, accessToken);
+    const resultTop10 = result.tracks.items.slice(0, 10);
 
-    res.json({ success: true, data: result });
+    res.json({ success: true, data: resultTop10 });
   } catch (error) {
     logger.error(`Error in getPlaylist: ${error.message}`);
     next(error);
