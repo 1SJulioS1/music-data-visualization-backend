@@ -1,6 +1,5 @@
 import express from "express";
 import cors from "cors";
-import { port } from "./config/index.js";
 import routes from "./routes/index.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { requestLogger } from "./middleware/morganWinstonHandler.js";
@@ -21,6 +20,6 @@ app.use("/api", routes);
 // Manejo de errores global
 app.use(errorHandler);
 
-app.listen(port, () => {
-  console.log(`Servidor corriendo en http://localhost:${port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${process.env.PORT}`);
 });
