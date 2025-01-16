@@ -1,4 +1,3 @@
-import { spotifyClientID, spotifyClientSecret } from "../config/index.js";
 import { handleHttpResponse } from "../utils/handleHttpResponse.js";
 import logger from "../utils/logger.js";
 import axios from "axios";
@@ -8,6 +7,8 @@ let spotifyToken = {
   expiresAt: null,
 };
 
+const spotifyClientID = process.env.SPOTIFY_CLIENT_ID;
+const spotifyClientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 /**
  * Obtiene un nuevo token de acceso desde la API de Spotify
  */
