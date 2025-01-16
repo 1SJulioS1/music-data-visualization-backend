@@ -1,10 +1,12 @@
 import express from "express";
 import cors from "cors";
-import morgan from "morgan";
 import { port } from "./config/index.js";
 import routes from "./routes/index.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { requestLogger } from "./middleware/morganWinstonHandler.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 const app = express();
 
 // Middlewares globales

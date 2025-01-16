@@ -1,6 +1,7 @@
 import fetch from "node-fetch";
-import { youtubeApiKey } from "../config/index.js";
 import { logger } from "../config/winstonConfig.js";
+
+const youtubeApiKey = process.env.YOUTUBE_API_KEY;
 /**
  * Llama a la YouTube Data API para obtener los videos más populares en una región
  * utilizando chart=mostPopular.
