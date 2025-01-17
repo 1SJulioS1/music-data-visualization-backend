@@ -4,6 +4,8 @@ import routes from "./routes/index.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { requestLogger } from "./middleware/morganWinstonHandler.js";
 import dotenv from "dotenv";
+import schedule from "node-schedule";
+import { netflixJob } from "./utils/netflix/fetchTopWeekly10.js";
 
 dotenv.config();
 const app = express();
@@ -19,6 +21,8 @@ app.use("/api", routes);
 
 // Manejo de errores global
 app.use(errorHandler);
+
+netflixJob();
 
 app.listen(process.env.PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${process.env.PORT}`);
