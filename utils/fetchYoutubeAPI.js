@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 import { logger } from "../config/winstonConfig.js";
+import { youtubeApiKey } from "../config/environment.js";
 
-const youtubeApiKey = process.env.YOUTUBE_API_KEY;
 /**
  * Llama a la YouTube Data API para obtener los videos más populares en una región
  * utilizando chart=mostPopular.
@@ -29,9 +29,7 @@ export async function getMostPopularVideos(regionCode) {
   const response = await fetch(url.toString());
   if (!response.ok) {
     logger.info(response);
-    logger.error(
-      `Error fetching playlist data for ${country}: ${error.message}`
-    );
+    logger.error(`Error fetching playlist data for ${regionCode}: ${response}`);
   }
 
   return response.json();
