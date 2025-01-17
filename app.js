@@ -4,7 +4,6 @@ import routes from "./routes/index.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { requestLogger } from "./middleware/morganWinstonHandler.js";
 import dotenv from "dotenv";
-import schedule from "node-schedule";
 import { netflixJob } from "./utils/netflix/fetchTopWeekly10.js";
 
 dotenv.config();
