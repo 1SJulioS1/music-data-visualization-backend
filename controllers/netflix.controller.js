@@ -1,6 +1,6 @@
 import fs from "fs/promises";
 import processNetflixTop10 from "../utils/netflix/netflixProcessor.js";
-
+import { fetchImage } from "../utils/netflix/fetchImage.js";
 const PROCESSED_FILE_PATH = "processed/latest-netflix-top.json";
 
 export async function getList(req, res) {
@@ -38,7 +38,16 @@ export async function getList(req, res) {
       });
     }
 
-    // Respond with the country's data
+    // Fetch images for films and TV shows
+    for (const film of countryData.films) {
+      film.image = await fetchImage("FILMS", country_iso2, film.posicion);
+    }
+
+    for (const tvShow of countryData.tv) {
+      tvShow.image = await fetchImage("TV", country_iso2, tvShow.posicion);
+    }
+
+    // Respond with the country's data including images
     res.status(200).json({
       success: true,
       message: `Netflix Top 10 data retrieved successfully for country '${country_iso2}'.`,
