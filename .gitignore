@@ -4,3 +4,4 @@ logs/
 downloads/
 coverage/
 .env.local
+processed
