@@ -4,7 +4,8 @@ import Papa from "papaparse";
 import { downloadNetflixTop10 } from "./netflixDownloader.js";
 
 const OUTPUT_DIR = path.resolve("processed");
-const LATEST_TOP_FILE = "latest-netflix-top.json";
+const LATEST_MOVIES_FILE = "latest-netflix-top-movies.json";
+const LATEST_SHOWS_FILE = "latest-netflix-top-shows.json";
 
 const parseTSV = async (filePath) => {
   const fileContent = await fs.readFile(filePath, "utf8");
@@ -25,61 +26,73 @@ const getLatestDate = (data) => {
 
 const processNetflixTop10 = async () => {
   try {
+    // 2. Download the TSV file
     const tempFilePath = await downloadNetflixTop10();
     console.log("File downloaded, starting processing...");
 
+    // 3. Parse the TSV
     const data = await parseTSV(tempFilePath);
 
-    // Get the latest date
+    // 4. Get the latest date
     const latestDate = getLatestDate(data);
+    const filteredData = data.filter((row) => row.week === latestDate);
 
-    // Group data by country and category
-    const groupedData = data
-      .filter((row) => row.week === latestDate)
-      .reduce((acc, row) => {
-        const countryIso2 = row.country_iso2;
-        const category = row.category.toLowerCase(); // 'films' or 'tv'
+    // Prepare structures for movies/shows
+    const moviesData = { week: latestDate, country_list: {} };
+    const showsData = { week: latestDate, country_list: {} };
 
-        if (!acc[countryIso2]) {
-          acc[countryIso2] = {
+    // 5. Iterate through entries
+    for (const row of filteredData) {
+      const countryIso2 = row.country_iso2;
+      const category = row.category.toLowerCase(); // 'films' or 'tv'
+      const rank = parseInt(row.weekly_rank, 10);
+
+      const entry = {
+        name: row.show_title,
+        rank,
+        cumulative_weeks_in_top_10: parseInt(
+          row.cumulative_weeks_in_top_10,
+          10
+        ),
+      };
+
+      if (category === "tv") {
+        entry.season_title = row.season_title;
+      }
+
+      // 5b. Add to moviesData or showsData
+      if (category === "films") {
+        if (!moviesData.country_list[countryIso2]) {
+          moviesData.country_list[countryIso2] = {
             country_name: row.country_name,
             films: [],
+          };
+        }
+        moviesData.country_list[countryIso2].films.push(entry);
+      } else if (category === "tv") {
+        if (!showsData.country_list[countryIso2]) {
+          showsData.country_list[countryIso2] = {
+            country_name: row.country_name,
             tv: [],
           };
         }
+        showsData.country_list[countryIso2].tv.push(entry);
+      }
+    }
 
-        const entry = {
-          nombre: row.show_title,
-          posicion: parseInt(row.weekly_rank, 10),
-          cumulative_weeks_in_top_10: parseInt(
-            row.cumulative_weeks_in_top_10,
-            10
-          ),
-        };
-
-        if (category === "tv") {
-          entry.season_title = row.season_title;
-        }
-
-        acc[countryIso2][category].push(entry);
-
-        return acc;
-      }, {});
-
-    // Construct the final JSON structure
-    const finalData = {
-      week: latestDate,
-      country_list: groupedData,
-    };
-
-    // Save the processed data
-    const outputFilePath = path.join(OUTPUT_DIR, LATEST_TOP_FILE);
+    // 6. Ensure output directory exists
     await fs.ensureDir(OUTPUT_DIR);
-    await fs.writeJSON(outputFilePath, finalData, { spaces: 2 });
 
-    console.log(
-      `Processing completed. Processed data saved to: ${outputFilePath}`
-    );
+    // 7. Write two separate JSON files
+    const moviesFilePath = path.join(OUTPUT_DIR, LATEST_MOVIES_FILE);
+    const showsFilePath = path.join(OUTPUT_DIR, LATEST_SHOWS_FILE);
+
+    await fs.writeJSON(moviesFilePath, moviesData, { spaces: 2 });
+    await fs.writeJSON(showsFilePath, showsData, { spaces: 2 });
+
+    console.log("Processing completed.");
+    console.log(`Movies data saved to: ${moviesFilePath}`);
+    console.log(`Shows data saved to: ${showsFilePath}`);
   } catch (error) {
     console.error("Error processing Netflix Top 10:", error.message);
   }
